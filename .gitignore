@@ -25,3 +25,15 @@ venv/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Large checkpoints and local model artifacts
+data/checkpoints/
+
+# Local AI/editor folders
+.agents/
+.claude/
+
+# Local databases / Optuna studies
+*.db
+*.sqlite
+*.sqlite3
