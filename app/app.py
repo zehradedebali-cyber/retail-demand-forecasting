@@ -4,7 +4,7 @@ import numpy as np
 import plotly.express as px
 from catboost import CatBoostRegressor
 from pathlib import Path
-
+from huggingface_hub import hf_hub_download
 
 # --------------------------------------------------
 # PAGE CONFIG

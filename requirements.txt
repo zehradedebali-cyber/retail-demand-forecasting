@@ -9,3 +9,4 @@ optuna
 plotly
 streamlit
 jupyter
+huggingface_hub
