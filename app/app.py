@@ -134,8 +134,18 @@ st.caption(
 # --------------------------------------------------
 
 BASE_DIR = Path(__file__).resolve().parent
-
 DATA_PATH = BASE_DIR / "app_data.pkl"
+
+
+# --------------------------------------------------
+# LOAD DATA + MODEL
+# --------------------------------------------------
+
+@st.cache_data
+def load_data():
+    return pd.read_pickle(DATA_PATH)
+
+
 @st.cache_resource
 def load_model():
     model_path = hf_hub_download(
@@ -149,27 +159,8 @@ def load_model():
     return model
 
 
-model = load_model()
-
-# --------------------------------------------------
-# LOAD DATA + MODEL
-# --------------------------------------------------
-
-@st.cache_data
-def load_data():
-    return pd.read_pickle(DATA_PATH)
-
-
-@st.cache_resource
-def load_model():
-    model = CatBoostRegressor()
-    model.load_model(model_path)
-    return model
-
-
 app_data = load_data()
 model = load_model()
-
 
 # --------------------------------------------------
 # FEATURES
