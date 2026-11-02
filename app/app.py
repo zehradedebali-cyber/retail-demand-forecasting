@@ -163,7 +163,7 @@ def load_data():
 @st.cache_resource
 def load_model():
     model = CatBoostRegressor()
-    model.load_model(MODEL_PATH)
+    model.load_model(model_path)
     return model
 
 
