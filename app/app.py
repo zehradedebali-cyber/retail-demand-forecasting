@@ -136,13 +136,20 @@ st.caption(
 BASE_DIR = Path(__file__).resolve().parent
 
 DATA_PATH = BASE_DIR / "app_data.pkl"
-MODEL_PATH = (
-    BASE_DIR.parent
-    / "data"
-    / "checkpoints"
-    / "catboost_v4_final.cbm"
-)
+@st.cache_resource
+def load_model():
+    model_path = hf_hub_download(
+        repo_id="zehradedebali/retail-demand-forecasting-catboost",
+        filename="catboost_v4_final.cbm"
+    )
 
+    model = CatBoostRegressor()
+    model.load_model(model_path)
+
+    return model
+
+
+model = load_model()
 
 # --------------------------------------------------
 # LOAD DATA + MODEL
