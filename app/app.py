@@ -119,7 +119,6 @@ hr {
 </style>
 """, unsafe_allow_html=True)
 
-
 # --------------------------------------------------
 # HEADER
 # --------------------------------------------------
@@ -199,27 +198,61 @@ FEATURES = [
 # SIDEBAR
 # --------------------------------------------------
 
+# -----------------------------
+# Sidebar selections
+# -----------------------------
+
 st.sidebar.header("Forecast Settings")
 
+# 1. Store
 stores = sorted(app_data["store_id"].unique())
 
 selected_store = st.sidebar.selectbox(
-    "Store",
+    "Select Store",
     stores
 )
 
-available_items = sorted(
-    app_data.loc[
-        app_data["store_id"] == selected_store,
-        "item_id"
-    ].unique()
+# Store'a ait veriler
+store_data = app_data[
+    app_data["store_id"] == selected_store
+].copy()
+
+
+# 2. Department
+# item_id örn: FOODS_1_001 -> FOODS_1
+store_data["department"] = (
+    store_data["item_id"]
+    .astype(str)
+    .str.rsplit("_", n=1)
+    .str[0]
 )
+
+departments = sorted(store_data["department"].unique())
+
+selected_department = st.sidebar.selectbox(
+    "Select Department",
+    departments
+)
+
+
+# 3. Item
+department_data = store_data[
+    store_data["department"] == selected_department
+]
+
+items = sorted(department_data["item_id"].unique())
 
 selected_item = st.sidebar.selectbox(
-    "Item",
-    available_items
+    "Select Item",
+    items
 )
 
+
+# Final selected store-item row
+selected_data = app_data[
+    (app_data["store_id"] == selected_store) &
+    (app_data["item_id"] == selected_item)
+].copy()
 
 # --------------------------------------------------
 # SELECT RECORD
